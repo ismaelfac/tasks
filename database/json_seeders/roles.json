@@ -1,0 +1,16 @@
+[
+    {
+        "name": "SUPERADMIN",
+        "display_name": "ADMIN",
+        "description": "ADMIN DEL SISTEMA",
+        "all_roles": 1,
+        "active": 1
+    },
+    {
+        "name": "WORKER",
+        "display_name": "WORKER",
+        "description": "",
+        "all_roles": 0,
+        "active": 1
+    }
+]
