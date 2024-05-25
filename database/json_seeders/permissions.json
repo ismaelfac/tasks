@@ -1,0 +1,58 @@
+[
+    {
+        "name": "VER USUARIO",
+        "display_name": "VER_USUARIO",
+        "description": "ADMIN DEL SISTEMA",
+        "module": "SECURITY",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "EDITAR USUARIO",
+        "display_name": "EDITAR_USUARIO",
+        "description": "EDITAR USUARIO DEL SISTEMA",
+        "module": "SECURITY",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "VER ROLE",
+        "display_name": "VER_ROLE",
+        "description": "VER ROLE DEL SISTEMA",
+        "module": "SECURITY",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "EDITAR ROLE",
+        "display_name": "EDITAR_ROLE",
+        "description": "EDITAR ROLE DEL SISTEMA",
+        "module": "SECURITY",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "VER TAREA",
+        "display_name": "VIEW_TASKS",
+        "description": "VER NOMINA",
+        "module": "TASKS",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "CREAR Y EDITAR TAREA",
+        "display_name": "CRU_TASKS",
+        "description": "VER, CREAR Y EDITAR TAREA",
+        "module": "TASKS",
+        "type": 1,
+        "active": 1
+    },
+    {
+        "name": "ELIMINAR TAREA",
+        "display_name": "D_TASKS",
+        "description": "ELIMINAR TAREA",
+        "module": "TASKS",
+        "type": 1,
+        "active": 1
+    }
+]
