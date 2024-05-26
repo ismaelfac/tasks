@@ -36,14 +36,6 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         try {
-            $validatedData = Validator::make($request->all(), [
-                'title' => 'required|string',
-                'description' => 'required|string',
-                'due_date' => 'required|string',
-            ]);
-            if ($validatedData->fails()) {
-                return jsend_fail($validatedData->errors()->all());
-            }
             return jsend_success($this->getRepo()->store($request));
         } catch (\Exception $e) {
             return jsend_error('Error: '.$e->getMessage());
