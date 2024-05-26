@@ -27,9 +27,20 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json([
-            'data' => User::with('roles:id,name')->get(),
-            'success' => 200]);
+        try {
+            return jsend_success($this->getRepo()->index());
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
+    }
+
+    public function show(User $user)
+    {
+        try {
+            return jsend_success($this->getRepo()->show($user));
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**

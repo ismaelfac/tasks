@@ -15,8 +15,24 @@ class UserRepo extends BaseRepo
         return new User();
     }
 
+    public function index() 
+    {
+        $isAdmin = checkRoleUser();
+        return $this->getModel()->with('roles:id,name')->when($isAdmin === 'SUPERADMIN', function ($query) {
+            return $query->where('active', true);
+        }, function ($query) {
+            return $query->where('id', 0);
+        })->get();
+    }
 
-
+    public function show($user) {
+        $isAdmin = checkRoleUser();
+        return $this->getModel()->with('roles:id,name')->when($isAdmin === 'SUPERADMIN', function ($query) use ($user) {
+            return $query->where('id', $user->id)->where('active', true);
+        }, function ($query) {
+            return $query->where('id', 0);
+        })->get();
+    }
     function store($request)
     {
         try {
@@ -28,8 +44,7 @@ class UserRepo extends BaseRepo
                 ]);
                 Log::info('User creado: ',[$user]);
                 $this->generateAccessTokenForUser($user->id);
-                $user->roles()->sync([3 => ['active' => true]]);
-                //$user->companies()->sync([3 => ['active' => true]]);
+                $user->roles()->sync([2 => ['active' => true]]);
                 event(new Registered($user));
                 if (!empty($user->createToken('Token')->accessToken)) {
                     $token = $user->createToken('Token')->accessToken;
