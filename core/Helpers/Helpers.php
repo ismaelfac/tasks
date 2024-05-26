@@ -20,6 +20,14 @@ function checkUserAuth() {
     if (Auth::check()) {
         return Auth::user()->id;
     } else {
-        return env("USER_IMPORT");
+        return null;
+    }
+}
+
+function checkRoleUser() {
+    if (Auth::check()) {
+        return Auth::user()->roles()->pluck('name')->first();
+    } else {
+        return null;
     }
 }

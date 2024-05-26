@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\{ UserController, AuthController, RoleController };
+use App\Http\Controllers\Auth\{ UserController, AuthController, RoleController, PermissionController };
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,7 @@ Route::middleware(['auth:api'])->group(function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    Route::get('getPermissionRole/{module}', [PermissionController::class, 'getPermissionRole']);
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('tasks', TaskController::class);
 });

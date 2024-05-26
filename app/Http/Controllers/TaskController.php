@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Cms\Task\TaskRepo;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
+    public function getRepo(): TaskRepo
+    {
+        return new TaskRepo();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+            return jsend_success($this->getRepo()->index());
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**
@@ -29,7 +39,11 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        try {
+            return jsend_success($this->getRepo()->store($request));
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**
@@ -37,7 +51,11 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        try {
+            return jsend_success($this->getRepo()->show($task));
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**
@@ -53,7 +71,19 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        try {
+            $validatedData = Validator::make($request->all(), [
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'due_date' => 'required|string',
+            ]);
+            if ($validatedData->fails()) {
+                return jsend_fail($validatedData->errors()->all());
+            }
+            return jsend_success($this->getRepo()->update($request, $task));
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**

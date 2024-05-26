@@ -3,7 +3,6 @@
 namespace App\Cms\User;
 
 use App\Cms\BaseRepo\BaseRepo;
-use App\Cms\Employees\EmployeeRepo;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
@@ -16,26 +15,15 @@ class UserRepo extends BaseRepo
         return new User();
     }
 
-    function getModelEmployee(): EmployeeRepo
-    {
-        return new EmployeeRepo();
-    }
 
-    function getEmployeeUser($dni) {
-        return $this->getModel()->where('employee_code', $dni)->first();
-    }
 
     function store($request)
     {
         try {
-            $employee = $this->getModelEmployee()->show($request->employee_code);
-            if ($employee) {
                 $user = $this->getModel()->create([
                     'name' => $request->name,
-                    'email' => is_null($request->email) ? $request->employee_code : $request->email,
+                    'email' => $request->email,
                     'password' => $request->password,
-                    'employee_code' => $request->employee_code,
-                    'user_type' => $request->user_type,
                     'active' => true
                 ]);
                 Log::info('User creado: ',[$user]);
@@ -47,7 +35,7 @@ class UserRepo extends BaseRepo
                     $token = $user->createToken('Token')->accessToken;
                     return ['data' => $user, 'access_token' => $token, 'success' => 200];
                 }
-            }
+            
         } catch (\Exception $e) {
             Log::error('Error Store User', [$e->getMessage()]);
         }
@@ -72,7 +60,7 @@ class UserRepo extends BaseRepo
         );
 
         // Crear un token de acceso personal
-        $token = $user->createToken('temporales_tla'); // nombre del cliente aquí
+        $token = $user->createToken('tasks'); // nombre del cliente aquí
 
         // Retornar el resultado del token de acceso (opcional)
         return $token;

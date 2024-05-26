@@ -12,8 +12,8 @@ class PermissionRepo extends BaseRepo
         return new Permission();
     }
 
-    public function getPermissionRole($request)
+    public function getPermissionRole($module)
     {
-        return Permission::where('module', $request->module)->get();
+        return Permission::where('module', $module)->get();
     }
 }

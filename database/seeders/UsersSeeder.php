@@ -24,13 +24,22 @@ class UsersSeeder extends Seeder
         $this->generateAccessTokenForUser($user1->id);
         $user1->createToken('authToken')->accessToken;
         $user1->roles()->sync([1 => ['active' => true]]); //update roles
+
+        $user2 = User::create([
+            'name' => 'User Worker',
+            'email' => 'userworker@mail.com',
+            'password' => '123456',
+            'active' => true
+        ]);
+        $this->generateAccessTokenForUser($user2->id);
+        $user2->createToken('authToken')->accessToken;
+        $user2->roles()->sync([2 => ['active' => true]]); //update roles
     }
 
     protected function generateAccessTokenForUser($userId)
     {
-        // Obtener el usuario por su ID
+        // Obtiene el usuario por su ID
         $user = \App\Models\User::find($userId);
-
         if (!$user) {
             return null;
         }
@@ -38,22 +47,22 @@ class UsersSeeder extends Seeder
         // Revocar tokens de acceso existentes del usuario
         $this->revokeTokenAccess($user);
 
-        // Crear un nuevo cliente Passport
+        // Crea un nuevo cliente Passport
         $clientRepository = app(ClientRepository::class);
         $client = $clientRepository->createPersonalAccessClient(
             null, 'Personal Access Client', config('app.url')
         );
 
-        // Crear un token de acceso personal
-        $token = $user->createToken('tasks'); // nombre del cliente aquí
+        // Crea un token de acceso personal
+        $token = $user->createToken('tasks'); // nombre del cliente
 
-        // Retornar el resultado del token de acceso (opcional)
+        // Retorna el resultado del token de acceso
         return $token;
     }
 
     protected function revokeTokenAccess($user)
     {
-        // Revocar todos los tokens de acceso existentes del usuario
+        // Revoca todos los tokens de acceso existentes del usuario
         $user->tokens()->delete();
     }
 }

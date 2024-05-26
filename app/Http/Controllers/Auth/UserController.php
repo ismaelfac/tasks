@@ -28,7 +28,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         return response()->json([
-            'data' => User::whereRelation('roles', 'all_roles', '=', 0)->with('roles:id,name')->get(),
+            'data' => User::with('roles:id,name')->get(),
             'success' => 200]);
     }
 
