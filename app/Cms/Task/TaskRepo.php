@@ -15,7 +15,7 @@ class TaskRepo extends BaseRepo
 
     public function index() 
     {
-        $isAdmin = Auth::user()->roles()->pluck('name')->first();
+        $isAdmin = checkRoleUser();
         return $this->getModel()->when($isAdmin !== 'SUPERADMIN', function ($query) {
             return $query->where('user_id',  Auth::user()->id)->where('status', true);
         }, function ($query) {
@@ -24,7 +24,7 @@ class TaskRepo extends BaseRepo
     }
 
     public function show($task) {
-        $isAdmin = Auth::user()->roles()->pluck('name')->first();
+        $isAdmin = checkRoleUser();
         return $this->getModel()->when($isAdmin !== 'SUPERADMIN', function ($query) use ($task) {
             return $query->where('user_id',  Auth::user()->id)->where('id', $task->id)->where('status', true);
         }, function ($query) use ($task) {
@@ -39,7 +39,7 @@ class TaskRepo extends BaseRepo
             'description' => $request->description,
             'due_date' => $request->due_date,
             'status' => true,
-            'user_id' => is_null(Auth::user()) ? 1 : Auth::user()->id 
+            'user_id' => checkUserAuth() 
         ]);
     }
 
@@ -52,7 +52,7 @@ class TaskRepo extends BaseRepo
                 'description' => $request->description,
                 'due_date' => $request->due_date,
                 'status' => is_null($request->active) ? true : $request->active,
-                'user_id' => is_null(Auth::user()) ? 1 : Auth::user()->id 
+                'user_id' => checkUserAuth() 
             ]);
     }
 }
