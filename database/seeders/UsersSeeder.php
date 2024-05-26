@@ -24,6 +24,16 @@ class UsersSeeder extends Seeder
         $this->generateAccessTokenForUser($user1->id);
         $user1->createToken('authToken')->accessToken;
         $user1->roles()->sync([1 => ['active' => true]]); //update roles
+
+        $user2 = User::create([
+            'name' => 'User Worker',
+            'email' => 'userworker@mail.com',
+            'password' => '123456',
+            'active' => true
+        ]);
+        $this->generateAccessTokenForUser($user2->id);
+        $user2->createToken('authToken')->accessToken;
+        $user2->roles()->sync([2 => ['active' => true]]); //update roles
     }
 
     protected function generateAccessTokenForUser($userId)

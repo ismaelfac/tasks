@@ -19,7 +19,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return $this->getRepo()->index();
+        try {
+            return jsend_success($this->getRepo()->index());
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**
@@ -47,7 +51,11 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        try {
+            return jsend_success($this->getRepo()->show($task));
+        } catch (\Exception $e) {
+            return jsend_error('Error: '.$e->getMessage());
+        }
     }
 
     /**
